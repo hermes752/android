@@ -7,11 +7,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import com.example.cursomovil.calculadora1.Listeners.*;
+
+import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements  NumberOnclickListener.NumberListenerInteface, OperationOnClickListener.OperationListenerInteface{
     TextView zenbaki=(TextView)findViewById(R.id.textView);
 
+    /*
     Button uno=(Button)findViewById(R.id.button1);
     Button dos=(Button)findViewById(R.id.button2);
     Button tres=(Button)findViewById(R.id.button3);
@@ -27,114 +31,61 @@ public class MainActivity extends ActionBarActivity {
     Button rest=(Button)findViewById(R.id.button12);
     Button punto=(Button)findViewById(R.id.button13);
     Button berdin=(Button)findViewById(R.id.button14);
-    private int numero;
-    calculadora a=new calculadora();
+    */
+    private ArrayList<Button> numberButton;
+    private ArrayList<Button> operationButton;
+    private final String CALC="CALC";
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setOnListener();
-        numero=Integer.parseInt(a.getTotalString());
-        zenbaki.setText(numero);
+       getButtonsFromLayout();
     }
 
-    public void setOnListener(){
+    public void getButtonsFromLayout(){
 
-        uno.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        String[] numbers={"button1","button2","button3","button4","button5","button6","button7","button8","button8","button9","button10","button11","button12","button13","button14"};
 
-            }
-        });
-        dos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        for(int i=0;i<numbers.length;i++){
+            String id;
+            Button btn;
+                id="btn".concat(numbers[i]);
+                btn=(Button)findViewById(getResources().getIdentifier(id,"id",getPackageName()));
+            numberButton.add(btn);
 
-            }
-        });
-        tres.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
-        cuatro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        }
+        String[] operation={"add","sub","multiply","divide"};
 
-            }
-        });
-        cinco.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        for(int i=0;i<numbers.length;i++){
+            String id;
+            Button btn;
+            id="btn".concat(numbers[i]);
+            btn=(Button)findViewById(getResources().getIdentifier(id,"id",getPackageName()));
+            operationButton.add(btn);
 
-            }
-        });
-        seis.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
-        siete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        }
+    }
 
-            }
-        });
-        ocho.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    public void addEventListeners(){
+        View.OnClickListener numberOnclickListener= new NumberOnclickListener(this);
+        View.OnClickListener operationOnclickListener= new OperationOnClickListener(this);
+        for(int i=0;i<numberButton.size();i++){
 
-            }
-        });
-        nueve.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            numberButton.get(i).setOnClickListener(numberOnclickListener);
+        }
 
-            }
-        });
-        cero.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        for(int i=0;i<numberButton.size();i++){
 
-            }
-        });
-        multi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        divi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        rest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        punto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        berdin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
+            operationButton.get(i).setOnClickListener(operationOnclickListener);
+        }
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -157,4 +108,14 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void setNumber(String number){
+
+    }
+
+    public void setOperation(String operation){
+
+    }
+
+
 }
