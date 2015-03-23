@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.cursomovil.todolistfragment.model.ToDo;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,23 +19,26 @@ import android.widget.EditText;
 public class InputFragment extends Fragment {
 
         public interface TODOItemListener{
-            public void addTodo(String todo)
+            public void addTodo(ToDo todo);
 
 
         }
 
         private Button btnAdd;
         private EditText todoText;
-        private Activity target;
+
+    private TODOItemListener target;
 
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
             try{
-
+                this.target=(TODOItemListener)activity;
+            }catch (ClassCastException ex){
+                throw new ClassCastException(activity.toString()+"error");
             }
 
-            this.target=activity;
+
         }
 
         @Override
@@ -56,9 +61,9 @@ public class InputFragment extends Fragment {
 
                 @Override
                 public void onClick(View v) {
-                    String todo=todoText.getText().toString();
+                   ToDo todo=new ToDo(todoText.getText().toString());
 
-
+        target.addTodo(todo);
                 }
             });
 

@@ -1,13 +1,20 @@
 package com.example.cursomovil.todolistfragment;
 
+import android.app.Fragment;
+import android.app.ListFragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.cursomovil.todolistfragment.model.ToDo;
 
-public class MainActivity extends ActionBarActivity {
 
+public class MainActivity extends ActionBarActivity implements InputFragment.TODOItemListener {
+
+    private final String TODO="TODO";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,5 +42,21 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void addTodo(ToDo todo) {
+
+
+        InputFragment.TODOItemListener listFragment;
+        try{
+            listFragment=(InputFragment.TODOItemListener)getFragmentManager().findFragmentById(R.id.listfragment);
+        }catch(ClassCastException ex){
+            throw new ClassCastException(this.toString()+"error");
+        }
+
+        listFragment.addTodo(todo);
+
+
     }
 }
