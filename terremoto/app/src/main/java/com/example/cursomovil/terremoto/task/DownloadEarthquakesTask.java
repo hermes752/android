@@ -1,9 +1,11 @@
 package com.example.cursomovil.terremoto.task;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.cursomovil.terremoto.R;
+import com.example.cursomovil.terremoto.database.EarthQuakeDB;
 import com.example.cursomovil.terremoto.model.EarthQuake;
 import com.example.cursomovil.terremoto.model.coordenada;
 
@@ -22,33 +24,33 @@ import java.net.URLConnection;
 /**
  * Created by cursomovil on 25/03/15.
  */
-public class DownloadEarthquakesTask extends AsyncTask<String,EarthQuake,Integer> {
+public class DownloadEarthquakesTask extends AsyncTask<String, EarthQuake, Integer> {
 
-    public interface AddEarthQuackeInterface{
-        public void addEarthQuake(EarthQuake earthquake);
+    private EarthQuakeDB earthQuakeDB;
+    public interface AddEarthQuackeInterface {
+
     }
 
     private String EARTHQUAKE = "EARTHQUAKE";
 
     private AddEarthQuackeInterface target;
 
-    public DownloadEarthquakesTask(AddEarthQuackeInterface target){
-        this.target=target;
+    public DownloadEarthquakesTask(Context context,AddEarthQuackeInterface target) {
+        this.target = target;
+         earthQuakeDB=new EarthQuakeDB(context);
+
     }
 
 
     @Override
     protected Integer doInBackground(String... urls) {
-        if(urls.length>0) {
+        if (urls.length > 0) {
             updateEarthQuakes(urls[0]);
         }
 
 
-
-
         return null;
     }
-
 
 
     private void updateEarthQuakes(String earthquakesFeed) {
@@ -114,6 +116,7 @@ public class DownloadEarthquakesTask extends AsyncTask<String,EarthQuake,Integer
             earthQuake.setUrl(propietis.getString("url"));
             earthQuake.setCoords(coords);
 
+
             publishProgress(earthQuake);
             Log.d("TRAZA", earthQuake.toString());
 
@@ -127,6 +130,6 @@ public class DownloadEarthquakesTask extends AsyncTask<String,EarthQuake,Integer
     @Override
     protected void onProgressUpdate(EarthQuake... earthQuakes) {
         super.onProgressUpdate(earthQuakes);
-        target.addEarthQuake(earthQuakes[0]);
+
     }
 }

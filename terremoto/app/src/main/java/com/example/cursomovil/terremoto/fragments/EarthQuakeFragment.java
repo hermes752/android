@@ -1,16 +1,24 @@
 package com.example.cursomovil.terremoto.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.ListFragment;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.cursomovil.terremoto.R;
 
 import com.example.cursomovil.terremoto.adapters.EarthquakeAdapterra;
 import com.example.cursomovil.terremoto.model.EarthQuake;
+import com.example.cursomovil.terremoto.activity_detaille;
 import com.example.cursomovil.terremoto.task.DownloadEarthquakesTask;
 
 import java.util.ArrayList;
@@ -31,23 +39,23 @@ public class EarthQuakeFragment extends ListFragment implements DownloadEarthqua
      */
 
     private String EARTHQUAKE = "EARTHQUAKE";
+    public static final String MAG="MAGNITUDE";
+    public static final String PLACE="PLACE";
 
     private ArrayList<EarthQuake> quakeArray;
     private ArrayAdapter<EarthQuake> aa;
-
-
+    private SharedPreferences prefs;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         quakeArray = new ArrayList<>();
-        DownloadEarthquakesTask task=new DownloadEarthquakesTask(this);
+
+        prefs= PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        DownloadEarthquakesTask task=new DownloadEarthquakesTask(getActivity(),this);
         task.execute(getString(R.string.earthquake_url));
-
-
-
-
 
     }
 
@@ -61,10 +69,24 @@ public class EarthQuakeFragment extends ListFragment implements DownloadEarthqua
         return layout;
     }
 
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+
+        EarthQuake earth=quakeArray.get(position);
+        Intent intent=new Intent(getActivity(),activity_detaille.class);
+        intent.putExtra(MAG, earth.getMagnitud());
+        intent.putExtra(PLACE,earth.getPlace());
+
+        startActivity(intent);
+    }
 
     @Override
-    public void addEarthQuake(EarthQuake earthquake) {
-        quakeArray.add(0,earthquake);
-        aa.notifyDataSetChanged();
+    public void onResume() {
+        super.onResume();
+        DownloadEarthquakesTask task=new DownloadEarthquakesTask(getActivity(),this);
+        task.execute(getString(R.string.earthquake_url));
     }
+
+
 }

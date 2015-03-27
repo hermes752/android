@@ -2,6 +2,7 @@ package com.example.cursomovil.todolistfragment;
 
 import android.app.Fragment;
 import android.app.ListFragment;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.example.cursomovil.todolistfragment.model.ToDo;
 public class MainActivity extends ActionBarActivity implements InputFragment.TODOItemListener {
 
     private final String TODO="TODO";
+    private int PREFS_ACTIVITY=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,8 @@ public class MainActivity extends ActionBarActivity implements InputFragment.TOD
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent prefsIntent=new Intent(this,SettingsActivity.class);
+            startActivityForResult(prefsIntent, PREFS_ACTIVITY);
             return true;
         }
 

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <SwitchPreference android:key="@string/PREF_AUTO_UPDATE"
+        android:title="@string/actualizar"
+        android:summary="@string/acutalizar"
+        android:defaultValue="true">
+
+
+
+    </SwitchPreference>
+
+    <PreferenceCategory
+        android:title="@string/earthquake_refresh">
+        <ListPreference
+            android:key="PREF_LIST"
+            android:title="Filtro de terremotos"
+            android:summary="ListPreference summary"
+            android:entries="@array/frequencia"
+            android:entryValues="@array/frequencia"
+            android:dependency="@string/PREF_AUTO_UPDATE"/>
+
+
+
+
+    </PreferenceCategory>
+
+
+
+
+    <PreferenceCategory
+        android:title="@string/earthquakes_filter">
+
+
+        <ListPreference
+            android:key="PREF_LIST"
+            android:title="Filtro de terremotos"
+            android:summary="ListPreference summary"
+            android:entries="@array/magnitud"
+            android:entryValues="@array/magnitud" />
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

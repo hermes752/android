@@ -8,4 +8,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add">add</string>
     <string name="title_activity_acitivity_detaille">acitivity_detaille</string>
+    <string name="title_activity_settings">activity settings</string>
+    <string name="earthquake_refresh">refresh</string>
+    <string name="earthquakes_filter">filter</string>
+    <string name="PREF_AUTO_UPDATE">update</string>
+    <string name="actualizar">actualizar</string>
+    <string name="acutalizar">actualizamos</string>
 </resources>
