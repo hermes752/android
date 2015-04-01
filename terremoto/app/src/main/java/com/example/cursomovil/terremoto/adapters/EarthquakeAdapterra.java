@@ -52,8 +52,8 @@ public class EarthquakeAdapterra extends ArrayAdapter<EarthQuake> {
         TextView date=(TextView)layout.findViewById(R.id.datuak);
         TextView eguna=(TextView)layout.findViewById(R.id.eguna);
 
-        task.setText(item.getMagnitud().toString());
-        date.setText(item.getPlace().toString());
+        task.setText(String.valueOf(item.getMagnitud()));
+        date.setText(item.getPlace());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         eguna.setText(sdf.format(item.getTime()));
 

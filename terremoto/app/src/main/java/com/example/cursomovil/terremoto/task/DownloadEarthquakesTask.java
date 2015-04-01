@@ -117,8 +117,14 @@ public class DownloadEarthquakesTask extends AsyncTask<String, EarthQuake, Integ
             earthQuake.setCoords(coords);
 
 
-            publishProgress(earthQuake);
+
+            earthQuakeDB.datuak_sartu(earthQuake);
             Log.d("TRAZA", earthQuake.toString());
+
+
+
+
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -130,6 +136,7 @@ public class DownloadEarthquakesTask extends AsyncTask<String, EarthQuake, Integ
     @Override
     protected void onProgressUpdate(EarthQuake... earthQuakes) {
         super.onProgressUpdate(earthQuakes);
+
 
     }
 }

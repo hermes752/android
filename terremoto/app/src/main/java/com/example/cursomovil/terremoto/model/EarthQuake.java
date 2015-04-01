@@ -59,13 +59,7 @@ public class EarthQuake {
     }
 
     public EarthQuake() {
-
-        this._id = _id;
-        this.place = place;
-        this.time = time;
-        this.coords = coords;
-        this.magnitud = magnitud;
-        this.url = url;
+        this.coords = new coordenada(0.0, 0.0, 0.0);
     }
 
     @Override

@@ -16,7 +16,9 @@ import android.widget.Toast;
 
 import com.example.cursomovil.terremoto.R;
 
+import com.example.cursomovil.terremoto.SettingsActivity;
 import com.example.cursomovil.terremoto.adapters.EarthquakeAdapterra;
+import com.example.cursomovil.terremoto.database.EarthQuakeDB;
 import com.example.cursomovil.terremoto.model.EarthQuake;
 import com.example.cursomovil.terremoto.activity_detaille;
 import com.example.cursomovil.terremoto.task.DownloadEarthquakesTask;
@@ -30,7 +32,7 @@ import java.util.ArrayList;
  * <p/>
  * interface.
  */
-public class EarthQuakeFragment extends ListFragment implements DownloadEarthquakesTask.AddEarthQuackeInterface{
+public class EarthQuakeFragment extends ListFragment implements DownloadEarthquakesTask.AddEarthQuackeInterface {
 
 
     /**
@@ -39,22 +41,28 @@ public class EarthQuakeFragment extends ListFragment implements DownloadEarthqua
      */
 
     private String EARTHQUAKE = "EARTHQUAKE";
-    public static final String MAG="MAGNITUDE";
-    public static final String PLACE="PLACE";
+    public static final String MAG = "MAGNITUDE";
+    public static final String PLACE = "PLACE";
+    public static final String LAT = "lat";
 
     private ArrayList<EarthQuake> quakeArray;
     private ArrayAdapter<EarthQuake> aa;
     private SharedPreferences prefs;
+    EarthQuakeDB earthQuakeDB;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         quakeArray = new ArrayList<>();
+        earthQuakeDB = new EarthQuakeDB(getActivity());
 
-        prefs= PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        DownloadEarthquakesTask task=new DownloadEarthquakesTask(getActivity(),this);
+        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+
+        DownloadEarthquakesTask task = new DownloadEarthquakesTask(getActivity(), this);
         task.execute(getString(R.string.earthquake_url));
 
     }
@@ -73,10 +81,11 @@ public class EarthQuakeFragment extends ListFragment implements DownloadEarthqua
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        EarthQuake earth=quakeArray.get(position);
-        Intent intent=new Intent(getActivity(),activity_detaille.class);
+        EarthQuake earth = quakeArray.get(position);
+        Intent intent = new Intent(getActivity(), activity_detaille.class);
         intent.putExtra(MAG, earth.getMagnitud());
-        intent.putExtra(PLACE,earth.getPlace());
+        intent.putExtra(PLACE, earth.getPlace());
+        intent.putExtra(LAT, earth.getCoords().getLatitud());
 
         startActivity(intent);
     }
@@ -84,8 +93,13 @@ public class EarthQuakeFragment extends ListFragment implements DownloadEarthqua
     @Override
     public void onResume() {
         super.onResume();
-        DownloadEarthquakesTask task=new DownloadEarthquakesTask(getActivity(),this);
-        task.execute(getString(R.string.earthquake_url));
+
+        int minMag = Integer.parseInt(prefs.getString(MAG, "0"));
+
+        quakeArray.clear();
+        quakeArray.addAll(earthQuakeDB.getEarthQuakesByMagnitude(minMag));
+
+        aa.notifyDataSetChanged();
     }
 
 
