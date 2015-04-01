@@ -2,6 +2,7 @@ package com.example.cursomovil.Geolocation;
 
 import android.content.Context;
 import android.location.Criteria;
+import android.location.Location;
 import android.location.LocationManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -13,7 +14,7 @@ import android.widget.TextView;
 import com.example.cursomovil.Geolocation.listeners.gps;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements  gps.ADDLocationInterface {
 
     private TextView alti;
     private TextView lati;
@@ -77,5 +78,10 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void addLocation(Location location) {
+        lati.setText(String.valueOf(location.getLatitude()));
     }
 }
