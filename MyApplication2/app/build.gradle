@@ -1,11 +1,18 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'prueba'
+            keyPassword 'prueba'
+            storeFile file('/home/cursomovil/prueba.jks')
+            storePassword 'prueba'
+        }
+    }
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
-
     defaultConfig {
-        applicationId "com.example.cursomovil.gps"
+        applicationId "com.example.cursomovil.myapplication2"
         minSdkVersion 17
         targetSdkVersion 21
         versionCode 1
@@ -20,8 +27,9 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.google.android.gms:play-services-location:7.0.0'
     compile 'com.google.android.gms:play-services-maps:7.0.0'
+    compile 'com.google.android.gms:play-services:7.0.0'
 }

@@ -11,23 +11,26 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.example.cursomovil.Geolocation.listeners.gps;
+import com.example.cursomovil.Geolocation.listeners.Gps;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 
-public class MainActivity extends ActionBarActivity implements  gps.ADDLocationInterface {
+public class MainActivity extends ActionBarActivity implements  Gps.ADDLocationInterface, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    private TextView alti;
-    private TextView lati;
     private TextView altu;
+    private TextView longi;
+    private TextView lati;
     private TextView velo;
     private String provider;
+    private GoogleApiClient mGoogleApiClient;
     LocationManager locationManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        alti=(TextView)findViewById(R.id.latitud);
-        lati=(TextView)findViewById(R.id.longitud);
+        lati=(TextView)findViewById(R.id.latitud);
+        longi=(TextView)findViewById(R.id.longitud);
         altu=(TextView)findViewById(R.id.altura);
         velo=(TextView)findViewById(R.id.velocidad);
 
@@ -40,7 +43,7 @@ public class MainActivity extends ActionBarActivity implements  gps.ADDLocationI
 
         locationManager=(LocationManager)getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria=new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setAccuracy(Criteria.ACCURACY_COARSE);
         criteria.setSpeedRequired(true);
         criteria.setAltitudeRequired(true);
         provider=locationManager.getBestProvider(criteria,true);
@@ -53,9 +56,9 @@ public class MainActivity extends ActionBarActivity implements  gps.ADDLocationI
         int t=500;
         int distance=5;
 
-        gps gps=new gps();
+        Gps gps =new Gps(this);
 
-        locationManager.requestLocationUpdates(provider,t,distance,gps);
+        locationManager.requestLocationUpdates(provider,t,distance, gps);
     }
 
     @Override
@@ -82,6 +85,26 @@ public class MainActivity extends ActionBarActivity implements  gps.ADDLocationI
 
     @Override
     public void addLocation(Location location) {
+        longi.setText(String.valueOf(location.getLongitude()));
         lati.setText(String.valueOf(location.getLatitude()));
+
+
+
+
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
     }
 }

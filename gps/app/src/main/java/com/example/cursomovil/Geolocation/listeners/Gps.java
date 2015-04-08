@@ -7,7 +7,7 @@ import android.os.Bundle;
 /**
  * Created by cursomovil on 1/04/15.
  */
-public class gps implements LocationListener {
+public class Gps implements LocationListener {
 
 
     public interface ADDLocationInterface{
@@ -15,13 +15,16 @@ public class gps implements LocationListener {
     }
 
     private ADDLocationInterface target;
-    public gps(ADDLocationInterface target){
+    public Gps(ADDLocationInterface target){
         this.target=target;
     }
     @Override
     public void onLocationChanged(Location location) {
 
-        location.getLatitude();
+        //location.getLongitude();
+        //location.getLatitude();
+        //location.getAltitude();
+
 
     }
 
