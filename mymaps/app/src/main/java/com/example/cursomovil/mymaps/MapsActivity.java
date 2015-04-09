@@ -47,6 +47,7 @@ public class MapsActivity extends FragmentActivity implements
         actualizar=(Button)findViewById(R.id.actualizar);
         lati=(TextView)findViewById(R.id.latitude);
         longitud=(TextView)findViewById(R.id.longitude);
+
         actualizar.setEnabled(false);
         actualizar.setOnClickListener(new View.OnClickListener() {
             @Override
