@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -27,6 +28,8 @@ public class MapsActivity extends FragmentActivity implements
     private double latitud;
     private double longi;
     private Button actualizar;
+    private TextView lati;
+    private TextView longitud;
 
     /**
      * Represents a geographical location.
@@ -42,6 +45,8 @@ public class MapsActivity extends FragmentActivity implements
         buildGoogleApiClient();
 
         actualizar=(Button)findViewById(R.id.actualizar);
+        lati=(TextView)findViewById(R.id.latitude);
+        longitud=(TextView)findViewById(R.id.longitude);
         actualizar.setEnabled(false);
         actualizar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +68,8 @@ public class MapsActivity extends FragmentActivity implements
                             .tilt(30)                   // Sets the tilt of the camera to 30 degrees
                             .build();
                     mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    lati.setText("Latitud: "+String.valueOf(mLastLocation.getLatitude()));
+                    longitud.setText("Longitud: "+String.valueOf(mLastLocation.getLongitude()));
                 }
 
             }
@@ -160,6 +167,8 @@ public class MapsActivity extends FragmentActivity implements
             Toast.makeText(this, "error", Toast.LENGTH_LONG).show();
         }
         actualizar.setEnabled(true);
+        lati.setText("Latitud: "+String.valueOf(mLastLocation.getLatitude()));
+        longitud.setText("Longitud: "+String.valueOf(mLastLocation.getLongitude()));
     }
 
     @Override
