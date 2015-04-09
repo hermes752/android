@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.jar.Manifest;
 
 import tk.mirenamorrortu.earthquakes.Adaters.EarthQuakeAdapter;
 import tk.mirenamorrortu.earthquakes.DataBase.EarthQuakesDB;

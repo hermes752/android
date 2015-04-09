@@ -28,6 +28,8 @@ public class MapsActivity extends FragmentActivity implements
     private double latitud;
     private double longi;
     private Button actualizar;
+    private Button guardar;
+    private Button satelite;
     private TextView lati;
     private TextView longitud;
 
@@ -45,10 +47,14 @@ public class MapsActivity extends FragmentActivity implements
         buildGoogleApiClient();
 
         actualizar=(Button)findViewById(R.id.actualizar);
+        guardar=(Button)findViewById(R.id.guardar);
+        satelite=(Button)findViewById(R.id.satellite);
         lati=(TextView)findViewById(R.id.latitude);
         longitud=(TextView)findViewById(R.id.longitude);
 
         actualizar.setEnabled(false);
+        guardar.setEnabled(false);
+        satelite.setEnabled(false);
         actualizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +78,38 @@ public class MapsActivity extends FragmentActivity implements
                     lati.setText("Latitud: "+String.valueOf(mLastLocation.getLatitude()));
                     longitud.setText("Longitud: "+String.valueOf(mLastLocation.getLongitude()));
                 }
+
+            }
+        });
+
+        guardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                if (mLastLocation != null) {
+                    //mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
+                    //mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
+                    latitud=mLastLocation.getLatitude();
+                    longi=mLastLocation.getLongitude();
+                    setUpMap();
+                    LatLng MOUNTAIN_VIEW = new LatLng(latitud, longi);
+                    CameraPosition cameraPosition = new CameraPosition.Builder()
+                            .target(MOUNTAIN_VIEW)      // Sets the center of the map to Mountain View
+                            .zoom(17)                   // Sets the zoom
+                            .bearing(90)                // Sets the orientation of the camera to east
+                            .tilt(30)                   // Sets the tilt of the camera to 30 degrees
+                            .build();
+                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    lati.setText("Latitud: "+String.valueOf(mLastLocation.getLatitude()));
+                    longitud.setText("Longitud: "+String.valueOf(mLastLocation.getLongitude()));
+                }
+
+            }
+        });
+
+        satelite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
             }
         });
@@ -168,6 +206,8 @@ public class MapsActivity extends FragmentActivity implements
             Toast.makeText(this, "error", Toast.LENGTH_LONG).show();
         }
         actualizar.setEnabled(true);
+        guardar.setEnabled(true);
+        satelite.setEnabled(true);
         lati.setText("Latitud: "+String.valueOf(mLastLocation.getLatitude()));
         longitud.setText("Longitud: "+String.valueOf(mLastLocation.getLongitude()));
     }

@@ -1,72 +1,59 @@
 package tk.mirenamorrortu.earthquakes.mapas;
 
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import tk.mirenamorrortu.earthquakes.Fragments.EarthQuakeListFragment;
-import tk.mirenamorrortu.earthquakes.R;
+import java.util.List;
 
-public class MapsActivity extends FragmentActivity {
+import tk.mirenamorrortu.earthquakes.Model.EarthQuake;
 
-    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+/**
+ * Created by cursomovil on 9/04/15.
+ */
+public class MapsActivity extends MapFragment implements GoogleMap.OnMapLoadedCallback {
+
+private List<EarthQuake> earthQuakes;
+    GoogleMap map;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View layout= super.onCreateView(inflater, container, savedInstanceState);
+
+        map=getMap();
+
+        map.setOnMapLoadedCallback(this);
+        return layout;
+    }
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps1);
-        setUpMapIfNeeded();
-    }
+    public void onMapLoaded() {
+        GoogleMap map=getMap();
+        LatLngBounds.Builder builder=new LatLngBounds.Builder();
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setUpMapIfNeeded();
-    }
+        map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
-    /**
-     * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
-     * installed) and the map has not already been instantiated.. This will ensure that we only ever
-     * call {@link #setUpMap()} once when {@link #mMap} is not null.
-     * <p/>
-     * If it isn't installed {@link SupportMapFragment} (and
-     * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
-     * install/update the Google Play services APK on their device.
-     * <p/>
-     * A user can return to this FragmentActivity after following the prompt and correctly
-     * installing/updating/enabling the Google Play services. Since the FragmentActivity may not
-     * have been completely destroyed during this process (it is likely that it would only be
-     * stopped or paused), {@link #onCreate(Bundle)} may not be called again so we should call this
-     * method in {@link #onResume()} to guarantee that it will be called.
-     */
-    private void setUpMapIfNeeded() {
-        // Do a null check to confirm that we have not already instantiated the map.
-        if (mMap == null) {
-            // Try to obtain the map from the SupportMapFragment.
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-                    .getMap();
-            // Check if we were successful in obtaining the map.
-            if (mMap != null) {
-                setUpMap();
-            }
+        for(EarthQuake earthquake1:earthQuakes){
+            LatLng point=new LatLng(earthquake1.getCoords().getLng(), earthquake1.getCoords().getLat());
+            MarkerOptions marker=new MarkerOptions()
+                    .position(point)
+                    .snippet(earthquake1.getCoords().toString());
+            map.addMarker(marker);
+            builder.include(marker.getPosition());
         }
-    }
 
-    /**
-     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
-     * just add a marker near Africa.
-     * <p/>
-     * This should only be called once and when we are sure that {@link #mMap} is not null.
-     */
-    private void setUpMap() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-
-
-
+        LatLngBounds bounds=builder.build();
+        CameraUpdate cu= CameraUpdateFactory.newLatLngBounds(bounds,0);
+        map.moveCamera(cu);
     }
 }

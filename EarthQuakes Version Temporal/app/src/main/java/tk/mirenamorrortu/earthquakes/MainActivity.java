@@ -12,11 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 import tk.mirenamorrortu.earthquakes.Activities.SettingsActivity;
 import tk.mirenamorrortu.earthquakes.Managers.EarthQuakeAlarmManager;
-import tk.mirenamorrortu.earthquakes.Model.EarthQuake;
 import tk.mirenamorrortu.earthquakes.Services.DownloadEarthquakeService;
 import tk.mirenamorrortu.earthquakes.mapas.MapsActivity;
 import tk.mirenamorrortu.earthquakes.task.DownloadEarQuakesTask;

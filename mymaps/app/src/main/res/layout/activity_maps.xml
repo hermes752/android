@@ -17,7 +17,7 @@
         android:text="Actualizar"
         android:id="@+id/actualizar"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -36,5 +36,21 @@
         android:id="@+id/longitude"
         android:layout_below="@+id/latitude"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="guardar"
+        android:id="@+id/guardar"
+        android:layout_below="@+id/map"
+        android:layout_toEndOf="@+id/actualizar" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vista Satelite"
+        android:id="@+id/Satelite"
+        android:layout_alignBottom="@+id/guardar"
+        android:layout_toEndOf="@+id/guardar" />
 
 </RelativeLayout>
