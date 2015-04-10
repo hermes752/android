@@ -3,6 +3,7 @@ package tk.mirenamorrortu.earthquakes.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -136,4 +137,8 @@ public class EarthQuake implements Parcelable {
         }
     };
 
+    public String getMagnitudeFormatted() {
+        DecimalFormat format = new DecimalFormat("#0.00");
+        return format.format(this.magnitude);
+    }
 }

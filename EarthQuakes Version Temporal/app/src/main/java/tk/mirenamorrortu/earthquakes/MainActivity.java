@@ -1,29 +1,34 @@
 package tk.mirenamorrortu.earthquakes;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import tk.mirenamorrortu.earthquakes.Activities.SettingsActivity;
+import tk.mirenamorrortu.earthquakes.DataBase.EarthQuakesDB;
+import tk.mirenamorrortu.earthquakes.Fragments.EarthQuakeListFragment;
 import tk.mirenamorrortu.earthquakes.Managers.EarthQuakeAlarmManager;
 import tk.mirenamorrortu.earthquakes.Services.DownloadEarthquakeService;
-import tk.mirenamorrortu.earthquakes.mapas.MapsActivity;
+import tk.mirenamorrortu.earthquakes.Tabs.TabMenusListener;
+import tk.mirenamorrortu.earthquakes.mapas.MapsUnaiFragmet;
 import tk.mirenamorrortu.earthquakes.task.DownloadEarQuakesTask;
 
 
-public class MainActivity extends ActionBarActivity implements DownloadEarQuakesTask.AddEarthQuakeInterface{
+public class MainActivity extends Activity implements DownloadEarQuakesTask.AddEarthQuakeInterface{
     public static final int PREFS_ACTIVITY = 0;
     private String EARTHQUAKE_PREFS = "PREFERENCES";
-    private Button actualizar;
-    Intent i;
+
+    private TabMenusListener t;
+    ActionBar actionBar;
     public interface ActualizarListaInterface{
         public void ActualizarLista();
     }
@@ -34,7 +39,9 @@ public class MainActivity extends ActionBarActivity implements DownloadEarQuakes
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        target = (ActualizarListaInterface) this.getFragmentManager().findFragmentById(R.id.fragment);
+
+
+        target = (ActualizarListaInterface) this.getFragmentManager().findFragmentById(R.id.fragmentLayout);
         //downloadEarthQuakes();
         checkToSettedAlarm();
         //Comprobamos si hay que lanzar la alarma:
@@ -46,15 +53,8 @@ public class MainActivity extends ActionBarActivity implements DownloadEarQuakes
             EarthQuakeAlarmManager.setAlarm(this, freq);
         }
 
-        actualizar=(Button)findViewById(R.id.VerMapas);
-        i = new Intent(this, MapsActivity.class );
-        actualizar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(i);
 
-            }
-        });
+       CreateTabs();
 
     }
 
@@ -77,6 +77,31 @@ public class MainActivity extends ActionBarActivity implements DownloadEarQuakes
         Intent Download = new Intent (this, DownloadEarthquakeService.class);
         startService(Download);
     }
+
+
+    private void CreateTabs(){
+
+
+        final ActionBar bar = getActionBar();
+        bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        bar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
+
+        bar.addTab(bar.newTab()
+                .setText("Lista")
+                .setTabListener(new TabMenusListener<EarthQuakeListFragment>(
+                        this, R.id.fragmentLayout, EarthQuakeListFragment.class)));
+
+        bar.addTab(bar.newTab()
+                .setText("Mapa")
+                .setTabListener(new TabMenusListener<MapsUnaiFragmet>(
+                        this, R.id.fragmentLayout, MapsUnaiFragmet.class)));
+
+
+
+
+    }
+
+
 
 
     @Override

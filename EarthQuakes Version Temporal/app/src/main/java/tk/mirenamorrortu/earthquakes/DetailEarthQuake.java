@@ -4,8 +4,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.Menu;
-import android.webkit.WebViewFragment;
+import android.view.View;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
@@ -15,7 +16,7 @@ import java.util.List;
 import tk.mirenamorrortu.earthquakes.DataBase.EarthQuakesDB;
 import tk.mirenamorrortu.earthquakes.Fragments.EarthQuakeListFragment;
 import tk.mirenamorrortu.earthquakes.Model.EarthQuake;
-import tk.mirenamorrortu.earthquakes.mapas.MapsActivity;
+import tk.mirenamorrortu.earthquakes.mapas.MapsUnaiFragmet;
 
 
 public class DetailEarthQuake extends ActionBarActivity {
@@ -25,8 +26,8 @@ public class DetailEarthQuake extends ActionBarActivity {
     TextView Fecha;
     TextView Place;
     TextView _url;
-    WebViewFragment maps;
-    private MapsActivity mapFragment;
+   MapsUnaiFragmet maps;
+    private MapsUnaiFragmet mapFragment;
 
     EarthQuake eq;
 
@@ -36,7 +37,7 @@ public class DetailEarthQuake extends ActionBarActivity {
         Fecha = (TextView) findViewById(R.id.date_txt);
         Place = (TextView) findViewById(R.id.place_txt);
         _url = (TextView) findViewById(R.id.url_txt);
-        maps = (WebViewFragment) getFragmentManager().findFragmentById(R.id.maps_frag);
+        maps = (MapsUnaiFragmet) getFragmentManager().findFragmentById(R.id.mapfragunai);
         //maps = (Fragment) findViewById(R.id.maps_frag);
     }
 
@@ -45,7 +46,8 @@ public class DetailEarthQuake extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_earth_quake);
 
-        mapFragment=(MapsActivity)getFragmentManager().findFragmentById(R.id.map);
+
+
         SetViews();
 
         Intent detailIntent = getIntent();
@@ -54,8 +56,17 @@ public class DetailEarthQuake extends ActionBarActivity {
         EarthQuakesDB db = new EarthQuakesDB(this);
         eq = db.GetEarthQuake(detailIntent.getStringExtra(EarthQuakeListFragment.ID_EARTHQUAKE));
        // eq = detailIntent.getParcelableExtra(EarthQuakeListFragment.EARTHQUAKE);
+        List<EarthQuake> listadeearthquakes = new ArrayList<>();
+        listadeearthquakes.add(0, eq);
 
         populateView();
+        showMap(listadeearthquakes);
+    }
+
+    private void url(){
+
+
+
     }
 
     private void populateView(){
@@ -74,6 +85,11 @@ public class DetailEarthQuake extends ActionBarActivity {
         getFragmentManager().beginTransaction().add(android.R.id.content, maps).commit();
        */
 
+
+    }
+    private void showMap(List<EarthQuake> earthQuakes){
+
+        maps.setEarthQuakes(earthQuakes);
 
     }
 
@@ -118,12 +134,7 @@ public class DetailEarthQuake extends ActionBarActivity {
         magnitud.setTextColor(colort);
     }
 
-    private void showMap(EarthQuake earthQuake){
-        List<EarthQuake> earthQuakes=new ArrayList<>();
-        earthQuakes.add(earthQuake);
-        mapFragment.pintar(earthQuakes);
 
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

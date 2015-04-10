@@ -21,7 +21,7 @@ import tk.mirenamorrortu.earthquakes.DetailEarthQuake;
 import tk.mirenamorrortu.earthquakes.MainActivity;
 import tk.mirenamorrortu.earthquakes.Model.EarthQuake;
 import tk.mirenamorrortu.earthquakes.R;
-import tk.mirenamorrortu.earthquakes.mapas.MapsActivity;
+import tk.mirenamorrortu.earthquakes.mapas.MapsUnaiFragmet;
 import tk.mirenamorrortu.earthquakes.task.DownloadEarQuakesTask;
 
 
@@ -36,7 +36,7 @@ public class EarthQuakeListFragment extends ListFragment implements DownloadEarQ
     private Context context;
     private SharedPreferences prefs;
     private EarthQuakesDB earthQuakeDB;
-    private MapsActivity mapak;
+    private MapsUnaiFragmet mapak;
 
     public static final String EARTHQUAKE = "EARTHQUAKE";
     public static final String ID_EARTHQUAKE ="ID";

@@ -18,12 +18,15 @@ import java.util.List;
 import tk.mirenamorrortu.earthquakes.Model.EarthQuake;
 
 /**
- * Created by cursomovil on 9/04/15.
+ * Created by Unai on 9/04/15.
  */
-public class MapsActivity extends MapFragment implements GoogleMap.OnMapLoadedCallback {
+public class MapsUnaiFragmet extends MapFragment implements GoogleMap.OnMapLoadedCallback {
 
 private List<EarthQuake> earthQuakes;
     GoogleMap map;
+    public void setEarthQuakes (List<EarthQuake> earthQuakes){
+        this.earthQuakes = earthQuakes;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,13 +44,16 @@ private List<EarthQuake> earthQuakes;
         GoogleMap map=getMap();
         LatLngBounds.Builder builder=new LatLngBounds.Builder();
 
-        map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
 
         for(EarthQuake earthquake1:earthQuakes){
             LatLng point=new LatLng(earthquake1.getCoords().getLng(), earthquake1.getCoords().getLat());
             MarkerOptions marker=new MarkerOptions()
                     .position(point)
+                    .title(earthquake1.getPlace() + ". Magnitude: " + earthquake1.getMagnitudeFormatted() )
                     .snippet(earthquake1.getCoords().toString());
+
+
             map.addMarker(marker);
             builder.include(marker.getPosition());
         }
