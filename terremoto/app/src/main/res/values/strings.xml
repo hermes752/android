@@ -16,5 +16,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="PREF_LIST">minimo</string>
     <string name="PREF_TIME">TIME</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

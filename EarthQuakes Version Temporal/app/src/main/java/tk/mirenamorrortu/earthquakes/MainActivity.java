@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import tk.mirenamorrortu.earthquakes.Abstract.AbstrackMapFragment;
 import tk.mirenamorrortu.earthquakes.Activities.SettingsActivity;
 import tk.mirenamorrortu.earthquakes.DataBase.EarthQuakesDB;
 import tk.mirenamorrortu.earthquakes.Fragments.EarthQuakeListFragment;
@@ -119,7 +120,7 @@ public class MainActivity extends Activity implements DownloadEarQuakesTask.AddE
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_refresh) {
             Intent preferences = new Intent(this, SettingsActivity.class);
 
             startActivityForResult(preferences, PREFS_ACTIVITY);

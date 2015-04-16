@@ -1,0 +1,2 @@
+Este proyecto no es mio, lo estoy utilizando temporalmente para los mapas mientras arreglo el mio.
+Cuando lo tenga arreglado implementare en el otro la parte de la geolocalizacion de los terremotos en el mapa.

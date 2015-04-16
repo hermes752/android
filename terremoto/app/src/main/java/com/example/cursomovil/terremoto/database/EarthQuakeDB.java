@@ -32,6 +32,11 @@ public class EarthQuakeDB {
     private static final String LONG = "long";
     private static final String DEPTH = "depth";
     private static final String URL = "url";
+    private String[] result_columns = new String[] {
+            EarthQuakeOpenHelper., EarthQuakeOpenHelper.MAG_COLUMN_NAME,
+            EarthQuakeOpenHelper.PLACE_COLUMN_NAME, EarthQuakeOpenHelper.TIME_COLUMN_NAME,
+            EarthQuakeOpenHelper.URL_COLUMN_NAME, EarthQuakeOpenHelper.LAT_COLUMN_NAME,
+            EarthQuakeOpenHelper.LONG_COLUMN_NAME, EarthQuakeOpenHelper.DEPTH_COLUMN_NAME};
 
     private ArrayList<EarthQuake> query;
 
@@ -131,6 +136,9 @@ public class EarthQuakeDB {
 
         return query(null, null);
 
+    }
+    private Cursor getEarthQuakes (){
+        return db.query(EarthQuakeOpenHelper.DATABASE_TABLE, result_columns, null, null, null, null, null);
     }
 
     private List<EarthQuake> query(String where, String whereArgs[]) {

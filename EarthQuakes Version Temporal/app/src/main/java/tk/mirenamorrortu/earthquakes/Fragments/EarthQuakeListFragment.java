@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.app.ListFragment;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -31,6 +34,7 @@ import tk.mirenamorrortu.earthquakes.task.DownloadEarQuakesTask;
 public class EarthQuakeListFragment extends ListFragment implements DownloadEarQuakesTask.AddEarthQuakeInterface, MainActivity.ActualizarListaInterface{
 
 
+    private int PREFS_ACTIVITY=0;
     private ArrayList<EarthQuake> earthQuakes;
     private ArrayAdapter aa;
     private Context context;
@@ -57,6 +61,7 @@ public class EarthQuakeListFragment extends ListFragment implements DownloadEarQ
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
         earthQuakes = new ArrayList<EarthQuake>();
         earthQuakeDB = new EarthQuakesDB(this.getActivity());
@@ -122,5 +127,31 @@ public class EarthQuakeListFragment extends ListFragment implements DownloadEarQ
     public void onResume() {
         super.onResume();
         this.actualizarlista_bypreferences();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.menu_refresh,menu);
+
+
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_refresh) {
+            Intent intent = new Intent(getActivity(), DownloadEarQuakesTask.class);
+
+           getActivity().startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

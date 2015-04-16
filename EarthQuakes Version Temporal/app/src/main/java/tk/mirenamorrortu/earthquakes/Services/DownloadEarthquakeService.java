@@ -1,7 +1,12 @@
 package tk.mirenamorrortu.earthquakes.Services;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -18,6 +23,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import tk.mirenamorrortu.earthquakes.DataBase.EarthQuakesDB;
+import tk.mirenamorrortu.earthquakes.MainActivity;
 import tk.mirenamorrortu.earthquakes.Model.Coordinate;
 import tk.mirenamorrortu.earthquakes.Model.EarthQuake;
 import tk.mirenamorrortu.earthquakes.R;
@@ -42,6 +48,34 @@ public class DownloadEarthquakeService extends Service {
 
     }
 
+    public void sendNotification(int count){
+
+        Intent intentToFire=new Intent(this, MainActivity.class);
+        PendingIntent activityIntent=PendingIntent.getActivity(this,0,intentToFire,0);
+        Notification.Builder builder=new Notification.Builder(DownloadEarthquakeService.this);
+
+        builder.setSmallIcon(R.drawable.ic_launcher)
+
+                .setContentTitle(getString(R.string.app_name))
+                .setTicker("Notification")
+                .setContentText(getString(R.string.CountEarthquake,count))
+                .setWhen(System.currentTimeMillis())
+                .setDefaults(Notification.DEFAULT_SOUND)
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .setContentIntent(activityIntent)
+                .setAutoCancel(true);
+                 Notification notification=builder.build();
+                NotificationManager notificationManager
+                =(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+
+        int NOTIFICATION_REF=1;
+
+        notificationManager.notify(NOTIFICATION_REF,notification);
+
+
+
+
+    }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);

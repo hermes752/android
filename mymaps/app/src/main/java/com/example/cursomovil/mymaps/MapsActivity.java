@@ -111,6 +111,7 @@ public class MapsActivity extends FragmentActivity implements
             @Override
             public void onClick(View v) {
 
+                mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
             }
         });
 
@@ -165,6 +166,7 @@ public class MapsActivity extends FragmentActivity implements
      */
     private void setUpMap() {
         if (mMap != null) {
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             mMap.addMarker(new MarkerOptions().position(new LatLng(latitud, longi)).title("Marker"));
         }
     }

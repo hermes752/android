@@ -1,6 +1,9 @@
 package tk.mirenamorrortu.earthquakes.task;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import org.json.JSONArray;
@@ -15,8 +18,10 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import tk.mirenamorrortu.earthquakes.DataBase.EarthQuakesDB;
+import tk.mirenamorrortu.earthquakes.MainActivity;
 import tk.mirenamorrortu.earthquakes.Model.Coordinate;
 import tk.mirenamorrortu.earthquakes.Model.EarthQuake;
+import tk.mirenamorrortu.earthquakes.Services.DownloadEarthquakeService;
 
 
 /**
@@ -88,6 +93,8 @@ public class DownloadEarQuakesTask extends AsyncTask <String, EarthQuake, Intege
         }
         return count;
     }
+
+
 
     private void processEarthQuakeTask(JSONObject jsonObject) {
         try {

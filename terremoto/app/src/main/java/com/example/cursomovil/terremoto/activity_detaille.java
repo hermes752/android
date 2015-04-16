@@ -8,11 +8,16 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.cursomovil.terremoto.R;
+import com.example.cursomovil.terremoto.database.EarthQuakeDB;
 import com.example.cursomovil.terremoto.fragments.EarthQuakeFragment;
+import com.example.cursomovil.terremoto.mapas.MapsFragmentActivity;
 import com.example.cursomovil.terremoto.model.EarthQuake;
 import com.example.cursomovil.terremoto.task.DownloadEarthquakesTask;
 
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class activity_detaille extends ActionBarActivity {
 
@@ -20,18 +25,44 @@ public class activity_detaille extends ActionBarActivity {
     private TextView labeltask;
     private TextView labeldate;
 
+    TextView magnitud;
+    TextView _id;
+    TextView Fecha;
+    TextView Place;
+    TextView _url;
+    MapsFragmentActivity maps;
+
+
+    EarthQuake eq;
+
+    private void SetViews(){
+        magnitud = (TextView) findViewById(R.id.magni);
+        _id = (TextView) findViewById(R.id.idtask);
+        Fecha = (TextView) findViewById(R.id.idDate);
+
+
+        maps = (MapsFragmentActivity) getFragmentManager().findFragmentById(R.id.map);
+        //maps = (Fragment) findViewById(R.id.maps_frag);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity_detaille);
 
-        labeltask=(TextView)findViewById(R.id.idtask);
-        labeldate=(TextView)findViewById(R.id.idDate);
-        Intent detailIntent=getIntent();
+        SetViews();
 
-        double magn=detailIntent.getDoubleExtra(EarthQuakeFragment.MAG, 0.0);
-        labeltask.setText(String.valueOf(magn));
-        labeldate.setText(detailIntent.getStringExtra(EarthQuakeFragment.PLACE));
+        Intent detailIntent = getIntent();
+
+        //Si nos pasaran el id del terremoto, podríamos pedirselo a la BD
+        EarthQuakeDB db = new EarthQuakeDB(this);
+        eq = db.GetEarthQuake(detailIntent.getStringExtra(EarthQuakeFragment.ID));
+        // eq = detailIntent.getParcelableExtra(EarthQuakeListFragment.EARTHQUAKE);
+        List<EarthQuake> listadeearthquakes = new ArrayList<>();
+        listadeearthquakes.add(0, eq);
+
+        populateView();
+        showMap(listadeearthquakes);
 
 
     }

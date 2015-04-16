@@ -1,6 +1,10 @@
 package com.example.cursomovil.terremoto.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.Date;
 
 /**
@@ -62,6 +66,12 @@ public class EarthQuake {
         this.coords = new coordenada(0.0, 0.0, 0.0);
     }
 
+
+
+    public String getMagnitudeFormatted() {
+        DecimalFormat format = new DecimalFormat("#0.00");
+        return format.format(this.magnitud);
+    }
     @Override
     public String toString() {
         return this.getPlace();

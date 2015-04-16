@@ -44,6 +44,7 @@ public class EarthQuakeFragment extends ListFragment implements DownloadEarthqua
     public static final String MAG = "MAGNITUDE";
     public static final String PLACE = "PLACE";
     public static final String LAT = "lat";
+    public static final String ID = "_id";
 
     private ArrayList<EarthQuake> quakeArray;
     private ArrayAdapter<EarthQuake> aa;
@@ -83,6 +84,7 @@ public class EarthQuakeFragment extends ListFragment implements DownloadEarthqua
 
         EarthQuake earth = quakeArray.get(position);
         Intent intent = new Intent(getActivity(), activity_detaille.class);
+        intent.putExtra(ID,earth.get_id());
         intent.putExtra(MAG, earth.getMagnitud());
         intent.putExtra(PLACE, earth.getPlace());
         intent.putExtra(LAT, earth.getCoords().getLatitud());
